@@ -6,7 +6,7 @@ districts_url = "http://gis.lambeth.gov.uk/arcgis/rest/services/ElectoralService
 council_id = 'E09000022'
 
 
-stations_scraper = ArcGisScraper(stations_url, council_id, 'utf-8', 'stations', key='OBJECTID_1')
+stations_scraper = ArcGisScraper(stations_url, council_id, 'utf-8', 'stations', key='OBJECTID')
 stations_scraper.scrape()
 districts_scraper = ArcGisScraper(districts_url, council_id, 'utf-8', 'districts', key='OBJECTID_1')
 districts_scraper.scrape()
