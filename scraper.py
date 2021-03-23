@@ -1,12 +1,14 @@
-from dc_base_scrapers.arcgis_scraper import ArcGisScraper
+from dc_base_scrapers.geojson_scraper import GeoJsonScraper
+from dc_base_scrapers.hashonly_scraper import HashOnlyScraper
 
+search_url = "https://opendata.arcgis.com/api/v3/datasets?q=polling&filter[owner]=opendata@lambeth.gov.uk&fields[datasets]=name,url"
+stations_url = "https://opendata.arcgis.com/datasets/ae36e573b7a94632b1b2e585c30eda3d_0.geojson"
+districts_url = "https://opendata.arcgis.com/datasets/82d23d4644634038ba18a2121e0e3129_0.geojson"
+council_id = 'LBH'
 
-stations_url = "http://gis.lambeth.gov.uk/arcgis/rest/services/ElectoralServices/MapServer/0/query?where=1%3D1&text=&objectIds=&time=&geometry=&geometryType=esriGeometryPoint&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=*&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=4326&returnIdsOnly=false&returnCountOnly=false&orderByFields=OBJECTID&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson"
-districts_url = "http://gis.lambeth.gov.uk/arcgis/rest/services/ElectoralServices/MapServer/2/query?where=1%3D1&text=&objectIds=&time=&geometry=&geometryType=esriGeometryPolygon&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=*&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=4326&returnIdsOnly=false&returnCountOnly=false&orderByFields=OBJECTID&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson"
-council_id = 'E09000022'
-
-
-stations_scraper = ArcGisScraper(stations_url, council_id, 'utf-8', 'stations', key='OBJECTID')
+search_scraper = HashOnlyScraper(search_url, council_id, 'datasets', 'json')
+search_scraper.scrape(exclude_keys=['meta'])
+stations_scraper = GeoJsonScraper(stations_url, council_id, 'utf-8', 'stations', key='OBJECTID')
 stations_scraper.scrape()
-districts_scraper = ArcGisScraper(districts_url, council_id, 'utf-8', 'districts', key='OBJECTID')
+districts_scraper = GeoJsonScraper(districts_url, council_id, 'utf-8', 'districts', key='OBJECTID')
 districts_scraper.scrape()
